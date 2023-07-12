@@ -1,5 +1,5 @@
-const allSlides = document.querySelectorAll(".slider__item");       //получаем nodelist массив со всеми слайдами
-let currentSlide = 0;
+const allSlides = Array.from(document.querySelectorAll(".slider__item")); 
+let currentSlide = allSlides.findIndex(el => el.classList.contains('slider__item_active'))
 // Кнопки
 const slidePrev = document.querySelector('.slider__arrow_prev');
 const slideNext = document.querySelector('.slider__arrow_next');
