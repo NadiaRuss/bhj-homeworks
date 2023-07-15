@@ -4,6 +4,7 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.timer = container.querySelector('.timer');
 
     this.reset();
 
@@ -17,9 +18,9 @@ class Game {
   }
 
   registerEvents() {
-    window.onload = document.addEventListener('keydown', (event) => {
-      let text = this.currentSymbol.textContent
-      if (event.key.toUpperCase === text.toUpperCase) {
+      window.onload = document.addEventListener('keypress', (event) => {
+      let text = this.currentSymbol.textContent.toLowerCase();
+      if (event.key.toLowerCase() === text) {
         this.success()
       } else {
         this.fail()
@@ -45,7 +46,7 @@ class Game {
   }
 
   fail() {
-    if (++this.lossElement.textContent === 5 || timer.textContent === 0) {
+    if (++this.lossElement.textContent === 5) {
       alert('Вы проиграли!');
       this.reset();
     }
@@ -53,9 +54,18 @@ class Game {
   }
 
   setNewWord() {
+    clearInterval(this.intervalId);
     const word = this.getWord();
-
     this.renderWord(word);
+    this.timer.textContent = word.length;
+    this.intervalId = setInterval(() => {
+      this.timer.textContent -= 1;
+
+      if (+this.timer.textContent === 0){
+          this.fail();
+    };
+    }, 1000);
+
   }
 
   getWord() {
