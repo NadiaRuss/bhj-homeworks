@@ -4,6 +4,11 @@ let signIn = document.getElementById('signin');
 let welcome = document.getElementById('welcome');
 let userId = document.getElementById('user_id');
 
+if (localStorage.getItem('user_id')) {
+	signIn.classList.remove('signin_active');
+	welcome.classList.add('welcome_active');
+	userId.innerText = localStorage.getItem('user_id');
+}
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
 
@@ -15,12 +20,10 @@ form.addEventListener("submit", (e) => {
 		if (xhrAnswer.success === false) {
 			alert('Неверный логин или пароль');
 		} else {
+			localStorage.setItem('user_id', id);
 			signIn.classList.remove('signin_active');
 			welcome.classList.add('welcome_active');
-			localStorage.setItem('user_id', id)
-		}
-		if (localStorage.getItem('user_id')) {
-			userId.innerText = id
+			userId.innerText = localStorage.getItem('user_id');
 		}
 	})
 	xhr.responseType = 'json';
